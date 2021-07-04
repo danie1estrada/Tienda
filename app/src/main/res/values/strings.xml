@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">Tienda</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Products -->
+    <string name="product_list_title">Productos</string>
+    <string name="product_add_title">Agregar producto</string>
+    <string name="product_detail_title">Detalle</string>
+    <string name="no_products">No hay productos para mostrar</string>
+    <string name="label_is_purchase">¿Es una compra?</string>
+    <string name="hint_price">Precio</string>
+    <string name="hint_quantity">Cantidad</string>
+    <string name="hint_provider">Proveedor</string>
+    <string name="hint_purchase_price">Precio de compra</string>
+
+    <!-- Providers -->
+    <string name="provider_list_title">Proveedores</string>
+    <string name="provider_add_title">Agregar proveedor</string>
+    <string name="provider_detail_title">Detalle</string>
+    <string name="no_providers">No hay proveedores para mostrar</string>
+    <string name="hint_name">Nombre</string>
+    <string name="hint_company">Compañía</string>
+    <string name="hint_phone">Teléfono</string>
+    <string name="provider_delete_dialog_title">¿Desea eliminar este provedor?</string>
+
+    <!-- Transactions -->
+    <string name="transaction_list_title">Transacciones</string>
+    <string name="transaction_tab_title_sales">Ventas</string>
+    <string name="transaction_tab_title_purchases">Compras</string>
+
+    <!-- Sales -->
+    <string name="add_sale_title">Registrar venta</string>
+    <string name="title_sale_detail">Detalle de la venta</string>
+    <string name="hint_product">Producto</string>
+    <string name="hint_total">Total</string>
+    <string name="btn_register_sale">Registrar venta</string>
+    <string name="no_sales">No hay ventas para mostrar</string>
+
+    <!-- Purchases -->
+    <string name="title_purchase_detail">Detalle de la compra</string>
+    <string name="no_purchases">No hay compras para mostrar</string>
+
+    <!-- Buttons -->
+    <string name="btn_save">Guardar</string>
+    <string name="btn_delete">Eliminar</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="btn_close">Cerrar</string>
+
+    <!-- Messages -->
+    <string name="message_error">Ha ocurrido un error</string>
+    <string name="product_info_saved">Producto guardado en la bd</string>
+    <string name="product_info_updated">Producto actualizado</string>
+    <string name="product_info_deleted">Producto eliminado</string>
+    <string name="provider_info_saved">Proveedor guardado en la bd</string>
+    <string name="provider_info_updated">Proveedor actualizado</string>
+    <string name="provider_info_deleted">Proveedor eliminado</string>
+    <string name="sale_info_saved">Venta registrada</string>
+    <string name="purchase_info_saved">Compra registrada</string>
+</resources>

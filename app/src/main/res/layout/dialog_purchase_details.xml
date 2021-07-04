@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="purchase"
+            type="com.example.tienda.framework.database.room.transactions.entities.Purchase" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iconProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/iconMoney"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:srcCompat="@drawable/icon_purchase" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@{purchase.product + ` x` + purchase.quantity}"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/iconProduct"
+            app:layout_constraintStart_toEndOf="@+id/iconProduct"
+            app:layout_constraintTop_toTopOf="@+id/iconProduct"
+            tools:text="Product name" />
+
+        <ImageView
+            android:id="@+id/iconMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/iconCalendar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iconProduct"
+            app:srcCompat="@drawable/icon_money" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@{String.format(`%,.2f`, purchase.price * purchase.quantity)}"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/iconMoney"
+            app:layout_constraintStart_toEndOf="@+id/iconMoney"
+            app:layout_constraintTop_toTopOf="@+id/iconMoney"
+            tools:text="0.00" />
+
+        <ImageView
+            android:id="@+id/iconCalendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iconMoney"
+            app:srcCompat="@drawable/icon_calendar" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@{purchase.date}"
+            app:layout_constraintBottom_toBottomOf="@+id/iconCalendar"
+            app:layout_constraintStart_toEndOf="@+id/iconCalendar"
+            app:layout_constraintTop_toTopOf="@+id/iconCalendar"
+            tools:text="01-01-2021" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

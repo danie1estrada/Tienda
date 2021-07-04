@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="product"
+            type="com.example.tienda.framework.database.room.products.entities.Product" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground">
+
+        <ImageView
+            android:id="@+id/iconProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_products" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@{product.name}"
+            app:layout_constraintBottom_toBottomOf="@+id/iconProduct"
+            app:layout_constraintStart_toEndOf="@+id/iconProduct"
+            app:layout_constraintTop_toTopOf="@+id/iconProduct"
+            tools:text="Name" />
+
+        <ImageView
+            android:id="@+id/iconMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iconProduct"
+            app:srcCompat="@drawable/icon_money" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@{String.format(`%,.2f`, product.price)}"
+            app:layout_constraintBottom_toBottomOf="@+id/iconMoney"
+            app:layout_constraintStart_toEndOf="@+id/iconMoney"
+            app:layout_constraintTop_toTopOf="@+id/iconMoney"
+            tools:text="100.00" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

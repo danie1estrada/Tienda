@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/productsListFragment">
+
+    <fragment
+        android:id="@+id/providersListFragment"
+        android:name="com.example.tienda.providers.presentation.providerslist.ProvidersListFragment"
+        android:label="@string/provider_list_title"
+        tools:layout="@layout/fragment_providers_list">
+        <action
+            android:id="@+id/addProviderAction"
+            app:destination="@id/addProviderFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/seeProviderDetailAction"
+            app:destination="@id/providerDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/addProviderFragment"
+        android:name="com.example.tienda.providers.presentation.addprovider.AddProviderFragment"
+        android:label="@string/provider_add_title"
+        tools:layout="@layout/fragment_add_provider"/>
+    <fragment
+        android:id="@+id/providerDetailFragment"
+        android:name="com.example.tienda.providers.presentation.providerdetail.ProviderDetailFragment"
+        android:label="@string/provider_detail_title"
+        tools:layout="@layout/fragment_provider_detail"/>
+    <fragment
+        android:id="@+id/productsListFragment"
+        android:name="com.example.tienda.products.presentation.productslist.ProductsListFragment"
+        android:label="@string/product_list_title"
+        tools:layout="@layout/fragment_products_list" >
+        <action
+            android:id="@+id/addProductAction"
+            app:destination="@id/addProductFragment" />
+        <action
+            android:id="@+id/seeProductDetailAction"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addProductFragment"
+        android:name="com.example.tienda.products.presentation.addproduct.AddProductFragment"
+        android:label="@string/product_add_title"
+        tools:layout="@layout/fragment_add_product" />
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.example.tienda.products.presentation.productdetail.ProductDetailFragment"
+        android:label="@string/product_detail_title"
+        tools:layout="@layout/fragment_product_detail" />
+    <fragment
+        android:id="@+id/transactionsFragment"
+        android:name="com.example.tienda.transactions.presentation.transactions.TransactionsFragment"
+        android:label="@string/transaction_list_title"
+        tools:layout="@layout/fragment_transactions" >
+        <action
+            android:id="@+id/addSaleAction"
+            app:destination="@id/addSaleFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/addSaleFragment"
+        android:name="com.example.tienda.transactions.presentation.addsale.AddSaleFragment"
+        android:label="@string/add_sale_title"
+        tools:layout="@layout/fragment_add_sale" />
+</navigation>
