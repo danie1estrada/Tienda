@@ -1,41 +1,33 @@
-package com.example.tienda.providers.presentation.addprovider;
+package com.example.tienda.providers.presentation.addprovider
 
-import android.os.Bundle;
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.example.tienda.databinding.FragmentAddProviderBinding
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+class AddProviderFragment : Fragment() {
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+    private val viewModel: AddProviderViewModel by viewModels()
+    private lateinit var binding: FragmentAddProviderBinding
 
-import com.example.tienda.databinding.FragmentAddProviderBinding;
-
-public class AddProviderFragment extends Fragment {
-
-    private FragmentAddProviderBinding binding;
-    private AddProviderViewModel viewModel;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = FragmentAddProviderBinding.inflate(inflater, container, false);
-        init();
-        setup();
-        return binding.getRoot();
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentAddProviderBinding.inflate(inflater, container, false)
+        setup()
+        return binding.root
     }
 
-    private void init() {
-        viewModel = new ViewModelProvider(this).get(AddProviderViewModel.class);
+    private fun setup() {
+        setupBinding()
     }
 
-    private void setup() {
-        setupBinding();
-    }
-
-    private void setupBinding() {
-        binding.setViewmodel(viewModel);
-        binding.setLifecycleOwner(getViewLifecycleOwner());
+    private fun setupBinding() {
+        binding.viewmodel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 }

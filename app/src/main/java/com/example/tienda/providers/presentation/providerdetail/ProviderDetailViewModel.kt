@@ -1,60 +1,43 @@
-package com.example.tienda.providers.presentation.providerdetail;
+package com.example.tienda.providers.presentation.providerdetail
 
-import android.app.Application;
-import android.widget.Toast;
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import com.example.tienda.providers.data.ProviderRepository
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import android.widget.Toast
+import com.example.tienda.R
+import java.lang.Exception
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
+class ProviderDetailViewModel(application: Application) : AndroidViewModel(application) {
 
-import com.example.tienda.R;
-import com.example.tienda.framework.database.room.providers.entities.Provider;
-import com.example.tienda.providers.data.ProviderRepository;
+    private val repository: ProviderRepository = ProviderRepository(application)
+    private val userId = MutableLiveData(0)
 
-public class ProviderDetailViewModel extends AndroidViewModel {
-
-    private ProviderRepository repository;
-
-    private final MutableLiveData<Integer> userId = new MutableLiveData<>(0);
-
-    private LiveData<Provider> provider = Transformations.switchMap(userId, input ->
-        repository.getById(input)
-    );
-
-    public ProviderDetailViewModel(@NonNull Application application) {
-        super(application);
-        repository = new ProviderRepository(application);
+    var provider = Transformations.switchMap(userId) {
+        repository.getById(it)
     }
 
-    public void setUserId(int userId) {
-        this.userId.setValue(userId);
+    fun setUserId(userId: Int) {
+        this.userId.value = userId
     }
 
-    public LiveData<Provider> getProvider() {
-        return provider;
-    }
-
-    public void setProvider(LiveData<Provider> provider) {
-        this.provider = provider;
-    }
-
-    public void save() {
+    fun save() {
         try {
-            repository.update(provider.getValue());
-            Toast.makeText(getApplication(), R.string.provider_info_updated, Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(getApplication(), R.string.message_error, Toast.LENGTH_SHORT).show();
+            repository.update(provider.value)
+            Toast.makeText(getApplication(), R.string.provider_info_updated, Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(getApplication(), R.string.message_error, Toast.LENGTH_SHORT).show()
         }
     }
 
-    public void delete() {
+    fun delete() {
         try {
-            repository.delete(provider.getValue());
-            Toast.makeText(getApplication(), R.string.provider_info_deleted, Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(getApplication(), R.string.message_error, Toast.LENGTH_SHORT).show();
+            repository.delete(provider.value)
+            Toast.makeText(getApplication(), R.string.provider_info_deleted, Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(getApplication(), R.string.message_error, Toast.LENGTH_SHORT).show()
         }
     }
+
 }

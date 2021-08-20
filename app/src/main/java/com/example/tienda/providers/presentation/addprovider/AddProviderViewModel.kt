@@ -1,45 +1,32 @@
-package com.example.tienda.providers.presentation.addprovider;
+package com.example.tienda.providers.presentation.addprovider
 
-import android.app.Application;
-import android.widget.Toast;
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import com.example.tienda.providers.data.ProviderRepository
+import androidx.lifecycle.MutableLiveData
+import android.widget.Toast
+import com.example.tienda.R
+import com.example.tienda.framework.database.room.providers.entities.Provider
+import java.lang.Exception
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.MutableLiveData;
+class AddProviderViewModel(application: Application) : AndroidViewModel(application) {
 
-import com.example.tienda.R;
-import com.example.tienda.framework.database.room.providers.entities.Provider;
-import com.example.tienda.providers.data.ProviderRepository;
+    private val repository: ProviderRepository = ProviderRepository(application)
 
-public class AddProviderViewModel extends AndroidViewModel {
+    val provider = MutableLiveData(Provider(0, "", "", ""))
 
-    private final ProviderRepository repository;
-    private MutableLiveData<Provider> provider = new MutableLiveData<>(new Provider(0, "", "", ""));
-
-    public AddProviderViewModel(@NonNull Application application) {
-        super(application);
-        repository = new ProviderRepository(application);
-    }
-
-    public void save() {
+    fun save() {
         try {
-            repository.insert(provider.getValue());
-            resetState();
-            Toast.makeText(getApplication(), R.string.provider_info_saved, Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            Toast.makeText(getApplication(), R.string.message_error, Toast.LENGTH_LONG).show();
+            repository.insert(provider.value)
+            resetState()
+            Toast.makeText(getApplication(), R.string.provider_info_saved, Toast.LENGTH_LONG).show()
+        } catch (e: Exception) {
+            Toast.makeText(getApplication(), R.string.message_error, Toast.LENGTH_LONG).show()
         }
     }
 
-    private void resetState() {
-        provider.setValue(new Provider(0, "", "", ""));
+    private fun resetState() {
+        provider.value = Provider(0, "", "", "")
     }
 
-    public MutableLiveData<Provider> getProvider() {
-        return provider;
-    }
-
-    public void setProvider(MutableLiveData<Provider> provider) {
-        this.provider = provider;
-    }
 }

@@ -1,31 +1,23 @@
-package com.example.tienda.framework.database.room.providers.daos;
+package com.example.tienda.framework.database.room.providers.daos
 
-import androidx.lifecycle.LiveData;
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
-import androidx.room.Query;
-import androidx.room.Update;
-
-import com.example.tienda.framework.database.room.providers.entities.Provider;
-
-import java.util.List;
+import androidx.lifecycle.LiveData
+import androidx.room.*
+import com.example.tienda.framework.database.room.providers.entities.Provider
 
 @Dao
-public interface ProviderDao {
-    @Query("SELECT * FROM providers")
-    LiveData<List<Provider>> getAll();
+interface ProviderDao {
+    @get:Query("SELECT * FROM providers")
+    val all: LiveData<List<Provider>>
 
     @Query("SELECT * FROM providers WHERE id = :id LIMIT 1")
-    LiveData<Provider> getById(int id);
+    fun getById(id: Int): LiveData<Provider?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Provider provider);
+    fun insert(provider: Provider)
 
     @Update
-    void update(Provider provider);
+    fun update(provider: Provider)
 
     @Delete
-    void delete(Provider provider);
+    fun delete(provider: Provider)
 }
