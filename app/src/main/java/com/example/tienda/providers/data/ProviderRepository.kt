@@ -1,45 +1,32 @@
-package com.example.tienda.providers.data;
+package com.example.tienda.providers.data
 
-import android.app.Application;
+import android.app.Application
+import com.example.tienda.framework.database.room.providers.daos.ProviderDao
+import androidx.lifecycle.LiveData
+import com.example.tienda.framework.database.room.AppDatabase
+import com.example.tienda.framework.database.room.providers.entities.Provider
 
-import androidx.lifecycle.LiveData;
+class ProviderRepository(application: Application) {
 
-import com.example.tienda.framework.database.room.AppDatabase;
-import com.example.tienda.framework.database.room.providers.daos.ProviderDao;
-import com.example.tienda.framework.database.room.providers.entities.Provider;
+    private val dao: ProviderDao = AppDatabase.getInstance(application).providerDao()
 
-import java.util.List;
+    val all: LiveData<List<Provider>>
+        get() = dao.all
 
-public class ProviderRepository {
-    private final ProviderDao dao;
-
-    public ProviderRepository(Application application) {
-        dao = AppDatabase.getInstance(application).providerDao();
+    fun getById(id: Int): LiveData<Provider?> {
+        return dao.getById(id)
     }
 
-    public LiveData<List<Provider>> getAll() {
-        return dao.getAll();
+    fun insert(provider: Provider) {
+        AppDatabase.databaseWriteExecutor.execute { dao.insert(provider) }
     }
 
-    public LiveData<Provider> getById(int id) {
-        return dao.getById(id);
+    fun update(provider: Provider) {
+        AppDatabase.databaseWriteExecutor.execute { dao.update(provider) }
     }
 
-    public void insert(Provider provider) {
-        AppDatabase.databaseWriteExecutor.execute(() ->
-            dao.insert(provider)
-        );
+    fun delete(provider: Provider) {
+        AppDatabase.databaseWriteExecutor.execute { dao.delete(provider) }
     }
 
-    public void update(Provider provider) {
-        AppDatabase.databaseWriteExecutor.execute(() ->
-            dao.update(provider)
-        );
-    }
-
-    public void delete(Provider provider) {
-        AppDatabase.databaseWriteExecutor.execute(() ->
-            dao.delete(provider)
-        );
-    }
 }
