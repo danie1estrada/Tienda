@@ -1,62 +1,36 @@
-package com.example.tienda.products.presentation.productslist;
+package com.example.tienda.products.presentation.productslist
 
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import com.example.tienda.framework.database.room.products.entities.Product
+import android.view.ViewGroup
+import android.view.LayoutInflater
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import com.example.tienda.databinding.LayoutProductListItemBinding
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
-import androidx.recyclerview.widget.RecyclerView;
+class ProductsListAdapter(
+    private val listener: (Product) -> Unit
+) : ListAdapter<Product, ProductsListAdapter.ViewHolder>(ProductDiffCallback()) {
 
-import com.example.tienda.databinding.LayoutProductListItemBinding;
-import com.example.tienda.framework.database.room.products.entities.Product;
-import com.example.tienda.products.utils.interfaces.OnProductSelected;
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
+        LayoutProductListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    )
 
-import java.util.Objects;
-
-public class ProductsListAdapter extends ListAdapter<Product, ProductsListAdapter.ViewHolder> {
-
-    private final OnProductSelected onProductSelected;
-
-    public ProductsListAdapter(OnProductSelected onProductSelected) {
-        super(DIFF_CALLBACK);
-        this.onProductSelected = onProductSelected;
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(
-            LayoutProductListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false)
-        );
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.binding.setProduct(getItem(position));
-        holder.binding.container.setOnClickListener(v ->
-            onProductSelected.onProductSelected(getItem(position))
-        );
-    }
-
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        private final LayoutProductListItemBinding binding;
-
-        public ViewHolder(LayoutProductListItemBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
+    inner class ViewHolder(
+        private val binding: LayoutProductListItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(product: Product) {
+            binding.product = product
+            binding.container.setOnClickListener { listener(product) }
         }
     }
 
-    public static final DiffUtil.ItemCallback<Product> DIFF_CALLBACK = new DiffUtil.ItemCallback<Product>() {
-        @Override
-        public boolean areItemsTheSame(@NonNull Product oldItem, @NonNull Product newItem) {
-            return oldItem.getId() == newItem.getId();
-        }
-
-        @Override
-        public boolean areContentsTheSame(@NonNull Product oldItem, @NonNull Product newItem) {
-            return Objects.equals(oldItem, newItem);
-        }
-    };
+    private class ProductDiffCallback : DiffUtil.ItemCallback<Product>() {
+        override fun areItemsTheSame(oldItem: Product, newItem: Product) = oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: Product, newItem: Product) = oldItem == newItem
+    }
 }

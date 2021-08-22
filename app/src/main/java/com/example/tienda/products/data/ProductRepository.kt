@@ -1,45 +1,28 @@
-package com.example.tienda.products.data;
+package com.example.tienda.products.data
 
-import android.app.Application;
+import android.app.Application
+import com.example.tienda.framework.database.room.products.daos.ProductDao
+import androidx.lifecycle.LiveData
+import com.example.tienda.framework.database.room.products.entities.Product
+import com.example.tienda.framework.database.room.AppDatabase
 
-import androidx.lifecycle.LiveData;
+class ProductRepository(application: Application) {
 
-import com.example.tienda.framework.database.room.AppDatabase;
-import com.example.tienda.framework.database.room.products.daos.ProductDao;
-import com.example.tienda.framework.database.room.products.entities.Product;
+    private val dao: ProductDao = AppDatabase.getInstance(application).productDao()
 
-import java.util.List;
+    val all: LiveData<List<Product>>
+        get() = dao.all
 
-public class ProductRepository {
-    private final ProductDao dao;
-
-    public ProductRepository(Application application) {
-        dao = AppDatabase.getInstance(application).productDao();
+    fun insert(product: Product) {
+        AppDatabase.databaseWriteExecutor.execute { dao.insert(product) }
     }
 
-    public LiveData<List<Product>> getAll() {
-        return dao.getAll();
+    fun update(product: Product) {
+        AppDatabase.databaseWriteExecutor.execute { dao.update(product) }
     }
 
-    public LiveData<Product> getById(int id) {
-        return dao.getById(id);
+    fun delete(product: Product) {
+        AppDatabase.databaseWriteExecutor.execute { dao.delete(product) }
     }
 
-    public void insert(Product product) {
-        AppDatabase.databaseWriteExecutor.execute(() ->
-            dao.insert(product)
-        );
-    }
-
-    public void update(Product product) {
-        AppDatabase.databaseWriteExecutor.execute(() ->
-            dao.update(product)
-        );
-    }
-
-    public void delete(Product product) {
-        AppDatabase.databaseWriteExecutor.execute(() ->
-            dao.delete(product)
-        );
-    }
 }

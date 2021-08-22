@@ -1,80 +1,68 @@
-package com.example.tienda.products.presentation.productdetail;
+package com.example.tienda.products.presentation.productdetail
 
-import android.os.Bundle;
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import android.widget.ArrayAdapter
+import com.example.tienda.R
+import android.view.View
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import com.example.tienda.databinding.FragmentProductDetailBinding
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-
-import com.example.tienda.R;
-import com.example.tienda.databinding.FragmentProductDetailBinding;
-
-public class ProductDetailFragment extends Fragment {
-
-    private FragmentProductDetailBinding binding;
-    private ProductDetailViewModel viewModel;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = FragmentProductDetailBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+class ProductDetailFragment : Fragment() {
+    
+    private lateinit var binding: FragmentProductDetailBinding
+    private val viewModel: ProductDetailViewModel by activityViewModels()
+    
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentProductDetailBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        init();
-        setup();
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setup()
     }
 
-    private void init() {
-        viewModel = new ViewModelProvider(requireActivity()).get(ProductDetailViewModel.class);
+    private fun setup() {
+        setupViewModel()
+        setupOnClick()
+        setupDropdown()
     }
 
-    private void setup() {
-        setupViewModel();
-        setupOnClick();
-        setupDropdown();
+    private fun setupViewModel() {
+        binding.viewmodel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 
-    private void setupViewModel() {
-        binding.setViewmodel(viewModel);
-        binding.setLifecycleOwner(getViewLifecycleOwner());
+    private fun setupDropdown() {
+        viewModel.providers.observe(viewLifecycleOwner, {
+            binding.dropdownProvider.setAdapter(
+                ArrayAdapter(requireContext(), R.layout.list_item, it)
+            )
+        })
     }
 
-    private void setupDropdown() {
-        viewModel.getProviders().observe(getViewLifecycleOwner(), providers ->
-            binding.dropdownProvider.setAdapter(new ArrayAdapter<>(
-                requireContext(),
-                R.layout.list_item,
-                providers
-        )));
+    private fun setupOnClick() {
+        binding.btnDelete.setOnClickListener { showDialog() }
     }
 
-    private void setupOnClick() {
-        binding.btnDelete.setOnClickListener(this::showDialog);
-    }
-
-    private void showDialog(View view) {
-        new AlertDialog.Builder(requireContext())
+    private fun showDialog() {
+        AlertDialog.Builder(requireContext())
             .setTitle(R.string.provider_delete_dialog_title)
             .setNegativeButton(R.string.btn_cancel, null)
-            .setPositiveButton(R.string.btn_delete, (dialog, which) -> {
-                viewModel.delete();
-                requireActivity().onBackPressed();
-            }).show();
+            .setPositiveButton(R.string.btn_delete) { _, _ ->
+                viewModel.delete()
+                requireActivity().onBackPressed()
+            }.show()
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        viewModel.resetState();
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.resetState()
     }
 }

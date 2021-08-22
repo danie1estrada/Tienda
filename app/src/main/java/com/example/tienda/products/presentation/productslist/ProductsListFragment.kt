@@ -1,79 +1,73 @@
-package com.example.tienda.products.presentation.productslist;
+package com.example.tienda.products.presentation.productslist
 
-import android.os.Bundle;
+import com.example.tienda.products.presentation.productdetail.ProductDetailViewModel
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.tienda.R
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tienda.databinding.FragmentProductsListBinding
+import com.example.tienda.framework.database.room.products.entities.Product
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
+class ProductsListFragment : Fragment() {
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+    private val productDetailViewModel: ProductDetailViewModel by activityViewModels()
+    private val viewModel: ProductsListViewModel by viewModels()
 
-import com.example.tienda.R;
-import com.example.tienda.databinding.FragmentProductsListBinding;
-import com.example.tienda.framework.database.room.products.entities.Product;
-import com.example.tienda.products.presentation.productdetail.ProductDetailViewModel;
-import com.example.tienda.products.utils.interfaces.OnProductSelected;
+    private lateinit var binding: FragmentProductsListBinding
+    private lateinit var adapter: ProductsListAdapter
 
-public class ProductsListFragment extends Fragment implements OnProductSelected {
-
-    private ProductDetailViewModel productDetailViewModel;
-    private FragmentProductsListBinding binding;
-    private ProductsListViewModel viewModel;
-    private ProductsListAdapter adapter;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = FragmentProductsListBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentProductsListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        init();
-        setup();
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        init()
+        setup()
     }
 
-    private void init() {
-        productDetailViewModel = new ViewModelProvider(requireActivity()).get(ProductDetailViewModel.class);
-        viewModel = new ViewModelProvider(this).get(ProductsListViewModel.class);
-        adapter = new ProductsListAdapter(this);
+    private fun init() {
+        adapter = ProductsListAdapter(::onProductSelected)
     }
 
-    private void setup() {
-        setupBinding();
-        setupOnClick();
-        setupRecyclerView();
+    private fun setup() {
+        setupBinding()
+        setupOnClick()
+        setupRecyclerView()
     }
 
-    private void setupBinding() {
-        binding.setViewmodel(viewModel);
-        binding.setLifecycleOwner(getViewLifecycleOwner());
+    private fun setupBinding() {
+        binding.viewmodel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 
-    private void setupOnClick() {
-        binding.fab.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.addProductAction));
+    private fun setupOnClick() {
+        binding.fab.setOnClickListener {
+            findNavController().navigate(R.id.addProductAction)
+        }
     }
 
-    private void setupRecyclerView() {
-        binding.recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.recyclerView.setAdapter(adapter);
-
-        viewModel.getProducts().observe(getViewLifecycleOwner(), products ->
-            adapter.submitList(products)
-        );
+    private fun setupRecyclerView() {
+        binding.recyclerView.apply {
+            addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = this@ProductsListFragment.adapter
+        }
+        viewModel.products.observe(viewLifecycleOwner, { adapter.submitList(it) })
     }
 
-    @Override
-    public void onProductSelected(Product product) {
-        productDetailViewModel.setProduct(product);
-        Navigation.findNavController(requireView()).navigate(R.id.seeProductDetailAction);
+    private fun onProductSelected(product: Product) {
+        productDetailViewModel.setProduct(product)
+        findNavController().navigate(R.id.seeProductDetailAction)
     }
 }
