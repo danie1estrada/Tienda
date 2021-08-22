@@ -1,70 +1,66 @@
-package com.example.tienda.transactions.presentation.sales;
+package com.example.tienda.transactions.presentation.sales
 
-import android.os.Bundle;
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.tienda.R
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tienda.databinding.FragmentSalesBinding
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
+class SalesFragment : Fragment() {
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.tienda.R;
-import com.example.tienda.databinding.FragmentSalesBinding;
-
-public class SalesFragment extends Fragment {
-
-    private FragmentSalesBinding binding;
-    private SalesViewModel viewModel;
-    private SalesAdapter adapter;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = FragmentSalesBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+    private val viewModel: SalesViewModel by viewModels()
+    private lateinit var binding: FragmentSalesBinding
+    private lateinit var adapter: SalesAdapter
+    
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentSalesBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        init();
-        setup();
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        init()
+        setup()
     }
 
-    private void init() {
-        viewModel = new ViewModelProvider(this).get(SalesViewModel.class);
-        adapter = new SalesAdapter();
+    private fun init() {
+        adapter = SalesAdapter()
     }
 
-    private void setup() {
-        setupFAB();
-        setupBinding();
-        setupRecyclerview();
+    private fun setup() {
+        setupFAB()
+        setupBinding()
+        setupRecyclerview()
     }
 
-    private void setupBinding() {
-        binding.setViewmodel(viewModel);
-        binding.setLifecycleOwner(getViewLifecycleOwner());
+    private fun setupBinding() {
+        binding.viewmodel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 
-    private void setupFAB() {
-        binding.fab.setOnClickListener(v ->
-            Navigation.findNavController(v).navigate(R.id.addSaleAction)
-        );
+    private fun setupFAB() {
+        binding.fab.setOnClickListener {
+            findNavController().navigate(R.id.addSaleAction)
+        }
     }
 
-    private void setupRecyclerview() {
-        binding.recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.recyclerView.setAdapter(adapter);
+    private fun setupRecyclerview() {
+        binding.recyclerView.apply {
+            addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = adapter
+        }
 
-        viewModel.getSales().observe(getViewLifecycleOwner(), sales ->
+        viewModel.sales.observe(viewLifecycleOwner, { sales ->
             adapter.submitList(sales)
-        );
+        })
     }
 }

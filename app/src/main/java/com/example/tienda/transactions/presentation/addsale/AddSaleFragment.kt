@@ -1,64 +1,52 @@
-package com.example.tienda.transactions.presentation.addsale;
+package com.example.tienda.transactions.presentation.addsale
 
-import android.os.Bundle;
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import android.view.View
+import com.example.tienda.framework.database.room.products.entities.Product
+import android.widget.ArrayAdapter
+import com.example.tienda.R
+import android.widget.AdapterView.OnItemClickListener
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.example.tienda.databinding.FragmentAddSaleBinding
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+class AddSaleFragment : Fragment() {
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-
-import com.example.tienda.R;
-import com.example.tienda.databinding.FragmentAddSaleBinding;
-import com.example.tienda.framework.database.room.products.entities.Product;
-
-public class AddSaleFragment extends Fragment {
-
-    private FragmentAddSaleBinding binding;
-    private AddSaleViewModel viewModel;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = FragmentAddSaleBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+    private val viewModel: AddSaleViewModel by viewModels()
+    private lateinit var binding: FragmentAddSaleBinding
+    
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentAddSaleBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        init();
-        setup();
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setup()
     }
 
-    private void init() {
-        viewModel = new ViewModelProvider(this).get(AddSaleViewModel.class);
+    private fun setup() {
+        setupBinding()
+        setupDropDown()
     }
 
-    private void setup() {
-        setupBinding();
-        setupDropDown();
+    private fun setupBinding() {
+        binding.viewmodel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 
-    private void setupBinding() {
-        binding.setViewmodel(viewModel);
-        binding.setLifecycleOwner(getViewLifecycleOwner());
-    }
-
-    private void setupDropDown() {
-        viewModel.getProducts().observe(getViewLifecycleOwner(), products -> {
-            binding.dropdownProduct.setAdapter(new ArrayAdapter<>(
-                requireContext(),
-                R.layout.list_item,
-                products
-            ));
-        });
-
-        binding.dropdownProduct.setOnItemClickListener((parent, view, position, id) -> {
-            viewModel.setProduct((Product) parent.getItemAtPosition(position));
-        });
+    private fun setupDropDown() {
+        viewModel.products.observe(viewLifecycleOwner, {
+            binding.dropdownProduct.setAdapter(
+                ArrayAdapter(requireContext(), R.layout.list_item, it)
+            )
+        })
+        binding.dropdownProduct.onItemClickListener = OnItemClickListener { parent, _, position, _ ->
+            viewModel.setProduct(parent.getItemAtPosition(position) as Product)
+        }
     }
 }

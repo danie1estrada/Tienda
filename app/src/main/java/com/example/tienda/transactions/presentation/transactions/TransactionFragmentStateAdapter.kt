@@ -1,33 +1,20 @@
-package com.example.tienda.transactions.presentation.transactions;
+package com.example.tienda.transactions.presentation.transactions
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.tienda.transactions.presentation.sales.SalesFragment
+import com.example.tienda.transactions.presentation.purchases.PurchasesFragment
 
-import com.example.tienda.transactions.presentation.purchases.PurchasesFragment;
-import com.example.tienda.transactions.presentation.sales.SalesFragment;
+class TransactionFragmentStateAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
-import java.util.ArrayList;
+    private val fragments = listOf(SalesFragment(), PurchasesFragment())
 
-public class TransactionFragmentStateAdapter extends FragmentStateAdapter {
-
-    private final ArrayList<Fragment> fragments;
-
-    public TransactionFragmentStateAdapter(@NonNull Fragment fragment) {
-        super(fragment);
-        fragments = new ArrayList<>();
-        fragments.add(new SalesFragment());
-        fragments.add(new PurchasesFragment());
+    override fun createFragment(position: Int): Fragment {
+        return fragments[position]
     }
 
-    @NonNull
-    @Override
-    public Fragment createFragment(int position) {
-        return fragments.get(position);
+    override fun getItemCount(): Int {
+        return fragments.size
     }
 
-    @Override
-    public int getItemCount() {
-        return fragments.size();
-    }
 }

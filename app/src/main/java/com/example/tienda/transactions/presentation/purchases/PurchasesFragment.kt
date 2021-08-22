@@ -1,61 +1,57 @@
-package com.example.tienda.transactions.presentation.purchases;
+package com.example.tienda.transactions.presentation.purchases
 
-import android.os.Bundle;
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tienda.databinding.FragmentPurchasesBinding
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
+class PurchasesFragment : Fragment() {
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.tienda.databinding.FragmentPurchasesBinding;
-
-public class PurchasesFragment extends Fragment {
-
-    private FragmentPurchasesBinding binding;
-    private PurchasesViewModel viewModel;
-    private PurchasesAdapter adapter;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = FragmentPurchasesBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+    private val viewModel: PurchasesViewModel by viewModels()
+    private lateinit var binding: FragmentPurchasesBinding
+    private lateinit var adapter: PurchasesAdapter
+    
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentPurchasesBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        init();
-        setup();
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        init()
+        setup()
     }
 
-    private void init() {
-        viewModel = new ViewModelProvider(this).get(PurchasesViewModel.class);
-        adapter = new PurchasesAdapter();
+    private fun init() {
+        adapter = PurchasesAdapter()
     }
 
-    private void setup() {
-        setupBinding();
-        setupRecyclerview();
+    private fun setup() {
+        setupBinding()
+        setupRecyclerview()
     }
 
-    private void setupBinding() {
-        binding.setViewmodel(viewModel);
-        binding.setLifecycleOwner(getViewLifecycleOwner());
+    private fun setupBinding() {
+        binding.viewmodel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 
-    private void setupRecyclerview() {
-        binding.recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.recyclerView.setAdapter(adapter);
+    private fun setupRecyclerview() {
+        binding.recyclerView.apply {
+            addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = adapter
+        }
 
-        viewModel.getPurchases().observe(getViewLifecycleOwner(), purchases ->
+        viewModel.purchases.observe(viewLifecycleOwner, { purchases ->
             adapter.submitList(purchases)
-        );
+        })
     }
 }

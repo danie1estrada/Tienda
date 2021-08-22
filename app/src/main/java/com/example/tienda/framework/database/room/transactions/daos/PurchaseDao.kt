@@ -1,20 +1,17 @@
-package com.example.tienda.framework.database.room.transactions.daos;
+package com.example.tienda.framework.database.room.transactions.daos
 
-import androidx.lifecycle.LiveData;
-import androidx.room.Dao;
-import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
-import androidx.room.Query;
-
-import com.example.tienda.framework.database.room.transactions.entities.Purchase;
-
-import java.util.List;
+import androidx.room.Dao
+import androidx.lifecycle.LiveData
+import androidx.room.Insert
+import com.example.tienda.framework.database.room.transactions.entities.Purchase
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 @Dao
-public interface PurchaseDao {
-    @Query("SELECT * FROM purchases ORDER BY id DESC")
-    LiveData<List<Purchase>> getAll();
+interface PurchaseDao {
+    @get:Query("SELECT * FROM purchases ORDER BY id DESC")
+    val purchases: LiveData<List<Purchase>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Purchase purchase);
+    fun insert(purchase: Purchase)
 }

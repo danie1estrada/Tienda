@@ -1,26 +1,12 @@
-package com.example.tienda.transactions.presentation.sales;
+package com.example.tienda.transactions.presentation.sales
 
-import android.app.Application;
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import com.example.tienda.framework.database.room.transactions.entities.Sale
+import com.example.tienda.transactions.data.TransactionRepository
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
+class SalesViewModel(application: Application) : AndroidViewModel(application) {
+    val sales: LiveData<List<Sale>> = TransactionRepository(application).sales
 
-import com.example.tienda.framework.database.room.transactions.entities.Sale;
-import com.example.tienda.transactions.data.TransactionRepository;
-
-import java.util.List;
-
-public class SalesViewModel extends AndroidViewModel {
-
-    private final LiveData<List<Sale>> sales;
-
-    public SalesViewModel(@NonNull Application application) {
-        super(application);
-        sales = new TransactionRepository(application).getSales();
-    }
-
-    public LiveData<List<Sale>> getSales() {
-        return sales;
-    }
 }
