@@ -1,14 +1,12 @@
 package com.example.tienda.providers.data
 
-import android.app.Application
 import com.example.tienda.framework.database.room.providers.daos.ProviderDao
 import androidx.lifecycle.LiveData
 import com.example.tienda.framework.database.room.AppDatabase
 import com.example.tienda.framework.database.room.providers.entities.Provider
+import javax.inject.Inject
 
-class ProviderRepository(application: Application) {
-
-    private val dao: ProviderDao = AppDatabase.getInstance(application).providerDao()
+class ProviderRepository @Inject constructor(private val dao: ProviderDao) {
 
     val all: LiveData<List<Provider>>
         get() = dao.all

@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tienda.databinding.FragmentProductsListBinding
 import com.example.tienda.framework.database.room.products.entities.Product
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProductsListFragment : Fragment() {
 
     private val productDetailViewModel: ProductDetailViewModel by activityViewModels()

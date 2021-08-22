@@ -10,7 +10,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tienda.databinding.FragmentProviderDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProviderDetailFragment : Fragment() {
 
     private val viewModel: ProviderDetailViewModel by viewModels()

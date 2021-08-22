@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/dann-/AndroidStudioProjects/Tienda/app/src/main/res/layout/fragment_add_product.xml" value="0.14166666666666666" />
+        <entry key="..\:/Users/dann-/AndroidStudioProjects/Tienda/app/src/main/res/layout/fragment_add_provider.xml" value="0.10925925925925926" />
+        <entry key="..\:/Users/dann-/AndroidStudioProjects/Tienda/app/src/main/res/layout/fragment_provider_detail.xml" value="0.10925925925925926" />
+        <entry key="..\:/Users/dann-/AndroidStudioProjects/Tienda/app/src/main/res/layout/fragment_sales.xml" value="0.11666666666666667" />
+        <entry key="..\:/Users/dann-/AndroidStudioProjects/Tienda/app/src/main/res/layout/layout_purchase_list_item.xml" value="0.14166666666666666" />
+      </map>
+    </option>
+  </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="org.jetbrains.annotations.Nullable" />
     <option name="myDefaultNotNull" value="androidx.annotation.NonNull" />

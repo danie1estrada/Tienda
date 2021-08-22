@@ -12,16 +12,21 @@ import com.example.tienda.framework.database.room.products.entities.Product
 import com.example.tienda.framework.database.room.transactions.entities.Purchase
 import androidx.lifecycle.Transformations
 import com.example.tienda.providers.data.ProviderRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class AddProductViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class AddProductViewModel @Inject constructor(
+    application: Application,
+    providerRepository: ProviderRepository,
+    private val repository: ProductRepository,
+    private val transactionRepository: TransactionRepository
+) : AndroidViewModel(application) {
 
-    private val transactionRepository: TransactionRepository = TransactionRepository(application)
-    private val repository: ProductRepository = ProductRepository(application)
-
-    val providers: LiveData<List<String>> = Transformations.map(ProviderRepository(application).all) {
+    val providers: LiveData<List<String>> = Transformations.map(providerRepository.all) {
         it.map { provider -> provider.company }
     }
 

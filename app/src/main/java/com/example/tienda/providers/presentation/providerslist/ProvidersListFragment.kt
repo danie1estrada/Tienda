@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tienda.databinding.FragmentProvidersListBinding
 import com.example.tienda.framework.database.room.providers.entities.Provider
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProvidersListFragment : Fragment() {
 
     private val viewModel: ProvidersListViewModel by viewModels()
@@ -31,7 +33,12 @@ class ProvidersListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        init()
         setup()
+    }
+
+    private fun init() {
+        adapter = ProvidersListAdapter(::onProviderSelected)
     }
 
     private fun setup() {
@@ -53,7 +60,7 @@ class ProvidersListFragment : Fragment() {
         binding.recyclerView.apply {
             addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = ProvidersListAdapter { onProviderSelected(it) }
+            adapter = this@ProvidersListFragment.adapter
         }
 
         viewModel.providers.observe(viewLifecycleOwner, { providers ->

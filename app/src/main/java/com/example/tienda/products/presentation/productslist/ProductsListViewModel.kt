@@ -1,11 +1,15 @@
 package com.example.tienda.products.presentation.productslist
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import com.example.tienda.products.data.ProductRepository
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.example.tienda.framework.database.room.products.entities.Product
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ProductsListViewModel(application: Application) : AndroidViewModel(application) {
-    val products: LiveData<List<Product>> = ProductRepository(application).all
+@HiltViewModel
+class ProductsListViewModel @Inject constructor(
+    repository: ProductRepository
+) : ViewModel() {
+    val products: LiveData<List<Product>> = repository.all
 }

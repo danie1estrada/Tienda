@@ -11,7 +11,9 @@ import com.example.tienda.R
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tienda.databinding.FragmentSalesBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SalesFragment : Fragment() {
 
     private val viewModel: SalesViewModel by viewModels()

@@ -7,7 +7,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tienda.databinding.FragmentAddProviderBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddProviderFragment : Fragment() {
 
     private val viewModel: AddProviderViewModel by viewModels()

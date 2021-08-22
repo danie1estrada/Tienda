@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tienda.R
 import com.example.tienda.databinding.FragmentAddProductBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddProductFragment : Fragment() {
     
     private val viewModel: AddProductViewModel by viewModels()

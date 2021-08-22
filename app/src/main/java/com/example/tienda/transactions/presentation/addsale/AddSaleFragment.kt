@@ -11,7 +11,9 @@ import android.widget.AdapterView.OnItemClickListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tienda.databinding.FragmentAddSaleBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddSaleFragment : Fragment() {
 
     private val viewModel: AddSaleViewModel by viewModels()

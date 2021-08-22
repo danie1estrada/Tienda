@@ -1,11 +1,15 @@
 package com.example.tienda.providers.presentation.providerslist
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.example.tienda.framework.database.room.providers.entities.Provider
 import com.example.tienda.providers.data.ProviderRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ProvidersListViewModel(application: Application) : AndroidViewModel(application) {
-    val providers: LiveData<List<Provider>> = ProviderRepository(application).all
+@HiltViewModel
+class ProvidersListViewModel @Inject constructor(
+    repository: ProviderRepository
+) : ViewModel() {
+    val providers: LiveData<List<Provider>> = repository.all
 }

@@ -12,14 +12,19 @@ import androidx.lifecycle.MediatorLiveData
 import com.example.tienda.framework.database.room.transactions.entities.Sale
 import android.widget.Toast
 import com.example.tienda.R
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class AddSaleViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class AddSaleViewModel @Inject constructor(
+    application: Application,
+    private val productRepository: ProductRepository,
+    private val repository: TransactionRepository
+) : AndroidViewModel(application) {
 
-    private val productRepository: ProductRepository = ProductRepository(application)
-    private val repository: TransactionRepository = TransactionRepository(application)
     val products: LiveData<List<Product>> = productRepository.all
 
     val product = MutableLiveData<Product?>()
