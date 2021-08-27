@@ -11,7 +11,7 @@ import com.example.tienda.R
 import com.example.tienda.framework.database.room.products.entities.Product
 import com.example.tienda.framework.database.room.transactions.entities.Purchase
 import androidx.lifecycle.Transformations
-import com.example.tienda.providers.data.ProviderRepository
+import com.example.tienda.providers.data.repositories.ProviderRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.lang.Exception
 import java.text.SimpleDateFormat

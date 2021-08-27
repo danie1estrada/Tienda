@@ -1,7 +1,9 @@
 package com.example.tienda.providers.di
 
 import com.example.tienda.framework.database.room.providers.daos.ProviderDao
-import com.example.tienda.providers.data.ProviderRepository
+import com.example.tienda.providers.data.repositories.ProviderRepository
+import com.example.tienda.providers.data.datasources.ProviderRoomDataSource
+import com.example.tienda.providers.domain.datasources.ProviderLocalDataSource
 import com.example.tienda.providers.domain.usecases.*
 import dagger.Module
 import dagger.Provides
@@ -12,10 +14,17 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ProvidersModule {
+
     @Provides
     @Singleton
-    fun provideProvidersRepository(dao: ProviderDao): ProviderRepository {
-        return ProviderRepository(dao)
+    fun provideProviderDataSource(dao: ProviderDao): ProviderLocalDataSource {
+        return ProviderRoomDataSource(dao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProvidersRepository(localDataSource: ProviderLocalDataSource): ProviderRepository {
+        return ProviderRepository(localDataSource)
     }
 
     @Provides
